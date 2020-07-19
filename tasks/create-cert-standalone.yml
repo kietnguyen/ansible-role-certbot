@@ -6,11 +6,15 @@
 
 - name: Generate new certificate
   block:
+    - name: Populate service facts
+      service_facts:
+
     - name: Stop services to allow certbot to generate a cert.
       service:
         name: "{{ item }}"
         state: stopped
       with_items: "{{ certbot_create_standalone_stop_services }}"
+      when: item in ansible_facts.services
 
     - name: Generate new certificate if one doesn't exist.
       command: "{{ certbot_create_command }}"
