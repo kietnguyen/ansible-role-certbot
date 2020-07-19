@@ -12,6 +12,12 @@
       when: ansible_os_family == 'Debian'
       changed_when: false
 
+    - name: Install dependencies (Amazon Linux 2).
+      yum:
+        name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+        state: present
+      when: ansible_distribution == 'Amazon' and ansible_distribution_major_version == "2"
+
     - name: Install dependencies (RedHat).
       yum: name={{ item }} state=present
       when: ansible_os_family == 'RedHat'
